@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import { Link } from 'react-router-dom';
 
-function RenderMenuItem({ dish, onClick }) {
+function RenderMenuItem({ dish}) {
   return (
     <Card >
       <Link to={`/menu/${dish.id}`}>
@@ -48,6 +48,6 @@ const Menu = (props) => {
       <div className="row">{menu}</div>
     </div>
   );
-} 
+}
 
 export default Menu;
