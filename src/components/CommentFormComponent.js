@@ -10,6 +10,11 @@ import {
 } from "reactstrap";
 import { Control, LocalForm, Errors } from "react-redux-form";
 
+//validators
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => !val || val.length >= len;
+
 class CommentForm extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +66,9 @@ class CommentForm extends Component {
                     name="rating"
                     id="rating"
                     className="form-control"
+                    validators={{
+                      required,
+                    }}
                   />
                   <option>Please Select</option>
                   <option>1</option>
@@ -68,7 +76,14 @@ class CommentForm extends Component {
                   <option>3</option>
                   <option>4</option>
                   <option>5</option>
-                  <Errors />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                    }}
+                  />
                 </Col>
               </Row>
 
@@ -83,6 +98,21 @@ class CommentForm extends Component {
                     id="author"
                     placeholder="First Name"
                     className="form-control"
+                    validators={{
+                      required,
+                      maxLength: maxLength(15),
+                      minLength: minLength(3),
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      minLength: "must be greater tahn 2 characters",
+                      maxLength: "must be less than 15 characters",
+                    }}
                   />
                 </Col>
               </Row>
