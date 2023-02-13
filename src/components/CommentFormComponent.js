@@ -29,7 +29,10 @@ class CommentForm extends Component {
 
   handleCommentFormSubmit(values) {
     console.log("current state is:" + JSON.stringify(values));
-    alert("current state is:" + JSON.stringify(values));
+    //alert("current state is:" + JSON.stringify(values));
+ 
+    this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
+
   }
 
   toggleCommentFormModal() {
@@ -128,6 +131,17 @@ class CommentForm extends Component {
                     name="comment"
                     className="form-control"
                     rows="6"
+                    validators={{
+                      required,
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                    }}
                   />
                 </Col>
               </Row>
