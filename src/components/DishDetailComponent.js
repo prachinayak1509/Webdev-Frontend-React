@@ -46,6 +46,12 @@ class CommentForm extends Component {
       values.author,
       values.comment
     );
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
 
   toggleCommentFormModal() {
@@ -222,6 +228,7 @@ function RenderComments({
         <h4>Comments</h4>
         {cmnts}
         <CommentForm
+          addComment={addComment}
           dishId={dishId}
           dish={dish}
           comments={comments}
@@ -253,7 +260,11 @@ const DishDetail = (props) => {
         </div>
         <div className="row">
           <RenderDish dish={props.dish} />
-          <RenderComments comments={props.comment} />
+          <RenderComments
+            comments={props.comment}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+          />
         </div>
       </div>
     );
