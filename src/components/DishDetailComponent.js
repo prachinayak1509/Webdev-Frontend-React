@@ -23,8 +23,6 @@ import {
 } from "reactstrap";
 import { Control, LocalForm, Errors } from "react-redux-form";
 
-
-
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => !val || val.length >= len;
@@ -42,11 +40,12 @@ class CommentForm extends Component {
   }
 
   handleCommentFormSubmit(values) {
-    console.log("current state is:" + JSON.stringify(values));
-    //alert("current state is:" + JSON.stringify(values));
- 
-    this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
-
+    this.props.postComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
 
   toggleCommentFormModal() {
@@ -174,12 +173,10 @@ class CommentForm extends Component {
   }
 }
 
-
 function RenderDish(dish) {
   if (dish != null) {
     return (
       <div className="col-12 col-md-5 m-1">
-      
         <Card>
           <CardImg width="100%" src={dish.image} alt={dish.name} />
           <CardBody>
@@ -187,7 +184,6 @@ function RenderDish(dish) {
             <CardText>{dish.description}</CardText>
           </CardBody>
         </Card>
-      
       </div>
     );
   } else {
@@ -195,76 +191,75 @@ function RenderDish(dish) {
   }
 }
 
-function RenderComments({ dish, comments, postComment, dishId }){
-  if (comments !=null){
-    const cmnts =comments.map((commnt) => {
-        return(
-          <ul key={commnt.id}>
-            <li>
-              <p>{commnt.comment}</p>
-              <p>--{commnt.author},
-              &nbsp;
-              {new Intl.DateTimeFormat('en-US', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: '2-digit'
-                                }).format(new Date(Date.parse(commnt.date)))}
-              </p>
-            </li>
-          </ul>
-        );
+function RenderComments({
+  dish,
+  comments,
+  postComment,
+  dishId,
+  addComment,
+  dishId,
+}) {
+  if (comments != null) {
+    const cmnts = comments.map((commnt) => {
+      return (
+        <ul key={commnt.id}>
+          <li>
+            <p>{commnt.comment}</p>
+            <p>
+              --{commnt.author}, &nbsp;
+              {new Intl.DateTimeFormat("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              }).format(new Date(Date.parse(commnt.date)))}
+            </p>
+          </li>
+        </ul>
+      );
     });
-    return(
+    return (
       <div className="col-12 col-md-5 m-1">
         <h4>Comments</h4>
         {cmnts}
-        <CommentForm 
-                    dish={dish} 
-                    comments={comments} 
-                    dishId={dishId} 
-                    postComment={postComment} 
-                />
+        <CommentForm
+          dishId={dishId}
+          dish={dish}
+          comments={comments}
+          postComment={postComment}
+        />
       </div>
     );
-  }
-  else{
-    return(
-      <div></div>
-    );
+  } else {
+    return <div></div>;
   }
 }
 
 const DishDetail = (props) => {
-  if (props.dish !=null){
+  if (props.dish != null) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/menu">Menu</Link>
+            </BreadcrumbItem>
 
-
-  return (
-    <div className="container">
-      <div className="row">
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <Link to="/menu">Menu</Link>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-        </Breadcrumb>
-        <div className="col-12">
-          <h3>{props.dish.name}</h3>
-          <hr />
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{props.dish.name}</h3>
+            <hr />
+          </div>
+        </div>
+        <div className="row">
+          <RenderDish dish={props.dish} />
+          <RenderComments comments={props.comment} />
         </div>
       </div>
-      <div className="row"><RenderDish dish={props.dish}/>
-      <RenderComments comments ={props.comment}/>
-      </div>
-    </div>
-  );
-  }
-  else{
-    return(
-      <div></div>
     );
+  } else {
+    return <div></div>;
   }
-}
-
+};
 
 export default DishDetail;
